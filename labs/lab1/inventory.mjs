@@ -5,7 +5,7 @@ const inventory = {
   'Sallad + Matvete': { price: 10, foundation: true, vegan: true, gluten: true },
   'Sallad + Glasnudlar': { price: 10, foundation: true, gluten: true },
   'Sallad + Quinoa': { price: 10, foundation: true, vegan: true },
-
+//testar att lägga en kommentar
   'Kycklingfilé': { price: 10, protein: true },
   'Rökt kalkonfilé': { price: 10, protein: true },
   'Norsk fjordlax': { price: 30, protein: true },
