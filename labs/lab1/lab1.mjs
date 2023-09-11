@@ -29,22 +29,41 @@ properties and own properties.
 
 console.log('\n--- Assignment 1 ---------------------------------------')
 
-function makeOptions(inv, prop) {
-  if (!Array.isArray(inv)) {
-    // Handle the case where inv is not an array, e.g., return an empty string
-    return "inv är inte en array lol";
-  }
-  const filteredIngredients = inv.filter((ingredient) => ingredient[prop]);
-  
-  const optionsHTML = filteredIngredients.map((ingredient) => {
-    const { name, price } = ingredient;
-    const key = name; // Set the key attribute using the name
-    return `<option value="${name}" key="${key}">${name}, ${price} kr</option>`;
-  });
+// function makeOptions(inv, prop) {
+//   if (!Array.isArray(inv)) {
+//     // Handle the case where inv is not an array, e.g., return an empty string
+//     return "inv är inte en array lol";
+//   }
+//   const filteredIngredients = inv.filter((ingredient) => ingredient[prop]);
+//   const optionsHTML = filteredIngredients.map((ingredient) => {
+//     const { name, price } = ingredient;
+//     const key = name; // Set the key attribute using the name
+//     return `<option value="${name}" key="${key}">${name}, ${price} kr</option>`;
+//   });
+//   return optionsHTML.reduce((options, option) => options + option, "");
+// }
 
-  return optionsHTML.reduce((options, option) => options + option, "");
+// function makeOptions(inv, prop){
+//   const ingredientArray = Object.keys(inv).map(prop => ({
+//     prop,
+//     ...inventory[prop]
+//   }));
+//   return ingredientArray;
+// }
+function makeOptions(inv, prop){
+  let optionsHTML = '';
+
+  //loopar
+  for (const ingredient in inv) {
+    if (inv.hasOwnProperty(ingredient)) {
+      //checkar om den har det
+      if (inv[ingredient][prop]){
+        optionsHTML += `<option value="${ingredient}" key="${ingredient}"> ${ingredient}, ${inv[ingredient].price} kr/styck </option>`;
+      }
+    }
+  }
+  return optionsHTML;
 }
- 
 
 console.log(makeOptions(inventory, 'foundation'));
 
