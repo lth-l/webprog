@@ -69,41 +69,21 @@ console.log(makeOptions(inventory, 'foundation'));
 
 console.log('\n--- Assignment 2 ---------------------------------------')
 class Salad {
-  constructor() { 
-    this.foundation = null;
-    this.protein = [];
-    this.extra = [];
-    this.dressing = [];
+  constructor(param) { 
+    if (param===undefined){
+    this.ingredients = {};}
+
+      else this.ingredients = {...param.ingredients}; //... tar nyckelegenskaper och kopierar
   }
+
   add(name, properties) {
-    if (name === "foundation"){
-      if (!this.foundation) {
-        this.foundation=properties;
-      } else {
-        console.log('Error: bara 1 foundation bror');
-        return;
-      }
-    } else if (name === "protein"){
-      this.protein.push(properties);
-    } else if (name === "extra"){
-      this.extra.push(properties);
-    } else if (name === "dressing"){
-      this.dressing.push(properties);
-    }
-    console.log( name + ' added');
+    this.ingredients[name] = properties;
+   // console.log( name + ' added');
     return this;
    }
   remove(name) { 
-    if (name === "foundation") {
-      this.foundation=null;
-    } else if (name === "protein") {
-      this.protein.splice(this.protein.indexOf(name), 1);
-    } else if (name === "extra") {
-      this.extra.splice(this.extra.indexOf(name), 1);
-    } else if (name === "dressing") {
-      this.dressing.splice(this.dressing.indexOf(name), 1);
-    }
-    console.log(name + ' removed!');
+    delete this.ingredients[name];
+    //console.log(name + ' removed!');
     return this;
   }
  /**  toJSON() {
@@ -111,7 +91,7 @@ class Salad {
   }
   */
   getPrice(){
-    return 70;
+    return this.foundation;
   }
   count(properties){
     return 70;
@@ -132,7 +112,11 @@ console.log(JSON.stringify(myCaesarSalad) + '\n');
 
 console.log('\n--- Assignment 3 ---------------------------------------')
 
-
+Salad.prototype.getPrice = function() {
+const totalPrice   = Object.entries(this.ingredients).map(([name, properties]) => properties.price) //en array av alla priser
+.reduce((sum, price) => sum + price);
+   return totalPrice;
+}
 
 console.log('En ceasarsallad kostar ' + myCaesarSalad.getPrice() + 'kr');
 // En ceasarsallad kostar 45kr
@@ -141,7 +125,7 @@ console.log('En ceasarsallad har ' + myCaesarSalad.count('lactose') + ' ingredie
 //console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör');
 // En ceasarsallad har 3 tillbehör
 
-/*
+
 console.log('\n--- reflection question 3 ---------------------------------------')
 console.log('typeof Salad: ' + typeof Salad);
 console.log('typeof Salad.prototype: ' + typeof Salad.prototype);
@@ -151,7 +135,7 @@ console.log('typeof myCaesarSalad.prototype: ' + typeof myCaesarSalad.prototype)
 console.log('check 1: ' + (Salad.prototype === Object.getPrototypeOf(Salad)));
 console.log('check 2: ' + (Salad.prototype === Object.getPrototypeOf(myCaesarSalad)));
 console.log('check 3: ' + (Object.prototype === Object.getPrototypeOf(Salad.prototype)));
-*/
+
 console.log('\n--- Assignment 4 ---------------------------------------')
 /*
 const singleText = JSON.stringify(myCaesarSalad);
