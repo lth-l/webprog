@@ -72,7 +72,6 @@ class Salad {
   constructor(param) { 
     if (param===undefined){
     this.ingredients = {};}
-
       else this.ingredients = {...param.ingredients}; //... tar nyckelegenskaper och kopierar
   }
 
@@ -86,16 +85,30 @@ class Salad {
     //console.log(name + ' removed!');
     return this;
   }
+
+  static parse (json){
+    try {
+      const parsedData = JSON.parse(json);
+      if (Array.isArray(parsedData)){
+        return parsedData.map(data => new Salad(data));
+      } else {
+        return new Salad(parsedData);
+      }
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      return null;
+    }
+  }
  /**  toJSON() {
     return { "ingredients": this.ingredients };
   }
-  */
+  
   getPrice(){
     return this.foundation;
   }
   count(properties){
     return 70;
-  }
+  } */
 }
 
 let myCaesarSalad = new Salad()
@@ -111,18 +124,21 @@ myCaesarSalad.remove('Gurka');
 console.log(JSON.stringify(myCaesarSalad) + '\n');
 
 console.log('\n--- Assignment 3 ---------------------------------------')
-
+//dessa är enumerable tillskillnad från add remove
 Salad.prototype.getPrice = function() {
 const totalPrice   = Object.entries(this.ingredients).map(([name, properties]) => properties.price) //en array av alla priser
 .reduce((sum, price) => sum + price);
    return totalPrice;
 }
+Salad.prototype.count =function(specialProperty){
+ return Object.entries(this.ingredients).filter(([name, properties]) => properties[specialProperty]).length;
+} //hade inte behövt entries, hade räckt med values (endast properties)
 
 console.log('En ceasarsallad kostar ' + myCaesarSalad.getPrice() + 'kr');
 // En ceasarsallad kostar 45kr
 console.log('En ceasarsallad har ' + myCaesarSalad.count('lactose') + ' ingredienser med laktos');
 // En ceasarsallad har 2 ingredienser med laktos
-//console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör');
+console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör');
 // En ceasarsallad har 3 tillbehör
 
 
@@ -137,7 +153,7 @@ console.log('check 2: ' + (Salad.prototype === Object.getPrototypeOf(myCaesarSal
 console.log('check 3: ' + (Object.prototype === Object.getPrototypeOf(Salad.prototype)));
 
 console.log('\n--- Assignment 4 ---------------------------------------')
-/*
+
 const singleText = JSON.stringify(myCaesarSalad);
 const arrayText = JSON.stringify([myCaesarSalad, myCaesarSalad]);
 
@@ -151,10 +167,23 @@ console.log('Salad.parse(singleText)\n' + JSON.stringify(singleCopy));
 console.log('Salad.parse(arrayText)\n' + JSON.stringify(arrayCopy));
 
 singleCopy.add('Gurka', inventory['Gurka']);
-console.log('originalet kostar ' + myCaesarSalad.getPrice() + ' kr');
+console.log('\n'+'originalet kostar ' + myCaesarSalad.getPrice() + ' kr');
 console.log('kopian med gurka kostar ' + singleCopy.getPrice() + ' kr');
-*/
+
 console.log('\n--- Assignment 5 ---------------------------------------')
+
+class GourmetSalad extends Salad{
+
+  //In a GourmetSalad the customer can specify the size of each ingredient when adding it
+  add (name, properties, amount){
+    const oldAmount = this.ingredients[name]?.amount??0;
+    super.add(name, {...properties, amount:amount+oldAmount}); 
+  }
+
+}
+
+
+
 /*
 let myGourmetSalad = new GourmetSalad()
   .add('Sallad', inventory['Sallad'], 0.5)
