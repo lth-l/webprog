@@ -25,6 +25,9 @@ for (const name in inventory) {
  * when will the two examples above give different outputs, and why
 is inherited functions, such as forEach(), not printed? Hint: read about enumerable
 properties and own properties.
+Object.keys ger egen own enumerables, och de får man inte med ärvda properties. 
+andra exemplet får man ärvda grejer, t ex prototypkedjor.
+
  */
 
 console.log('\n--- Assignment 1 ---------------------------------------')
@@ -148,6 +151,11 @@ console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör
 
 
 console.log('\n--- reflection question 3 ---------------------------------------')
+/**
+ * eflection question 3:
+ * klasser finns inte. 
+ * och en metod är typ samma som en protoypfunktion.
+ * */
 console.log('typeof Salad: ' + typeof Salad);
 console.log('typeof Salad.prototype: ' + typeof Salad.prototype);
 console.log('typeof Salad.prototype.prototype: ' + typeof Salad.prototype.prototype);
@@ -234,12 +242,16 @@ console.log('Min kopierade gourmetsallad har uuid: ' + copiedGourmetSalad.uuid);
 
 
 /**
+ * 
+ * 
+ * 
  * Reflection question 4
- * de sparas i konstruktorn
+ * de sparas i konstruktor-funktionen
  * 
  */
 /**
  * Reflection question 5
+ * nej, men ish mha private. tror vi.
  */
 /**
  * Reflection question 6
