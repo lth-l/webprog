@@ -5,7 +5,7 @@
  * det är skillnad på "om den finns" eller om den har ett värde.
  * 
  */
-
+import { v4 as uuidv4 } from 'uuid';
 import inventory from './inventory.mjs';
 console.log('\n=== beginning of printout ================================')
 console.log('inventory:', inventory);
@@ -69,10 +69,15 @@ console.log(makeOptions(inventory, 'foundation'));
 
 console.log('\n--- Assignment 2 ---------------------------------------')
 class Salad {
+  static instanceCounter = 0; 
   constructor(param) { 
     if (param===undefined){
-    this.ingredients = {};}
-      else this.ingredients = {...param.ingredients}; //... tar nyckelegenskaper och kopierar
+          this.ingredients = {};
+        this.uuid = uuidv4(); //gör ny UUID
+      }
+      else { this.ingredients = {...param.ingredients}; //... tar nyckelegenskaper och kopierar
+      this.uuid = param.uuid || uuidv4(); //använder gamla uuid
+    } this.id = 'salad_' + Salad.instanceCounter++
   }
 
   add(name, properties) {
@@ -175,16 +180,37 @@ console.log('\n--- Assignment 5 ---------------------------------------')
 class GourmetSalad extends Salad{
 
   //In a GourmetSalad the customer can specify the size of each ingredient when adding it
-  add (name, properties, amount){
-    const oldAmount = this.ingredients[name]?.amount??0;
-    super.add(name, {...properties, amount:amount+oldAmount}); 
+   add (name, properties, amount = 1){
+    const oldIngredient = this.ingredients[name];
+    const oldAmount = oldIngredient ? oldIngredient.amount : 0;
+
+    const newAmount = oldAmount + amount;
+
+    //const propertiesWithSize = { ...properties, amount: newAmount };
+    super.add(name, {...properties, amount:newAmount})
+    return this;
+    //super.add(name, propertiesWithSize);
+
+    //const oldAmount = this.ingredients[name]?.amount??0;
+    //super.add(name, {...properties, amount:amount+oldAmount}); 
   }
 
+}
+GourmetSalad.prototype.getPrice = function (){
+  //const gourmetPrice = Salad.prototype.getPrice; fattar inte hur jag ska kunna använda superklassen i detta fall.
+
+//Räcker med values.
+  const gourmetPrice = Object.values(this.ingredients).reduce((total, ingredient) => {
+    const ingredientPrice = ingredient.price * ingredient.amount;
+    return total + ingredientPrice;
+  }, 0);
+
+  return gourmetPrice;
 }
 
 
 
-/*
+
 let myGourmetSalad = new GourmetSalad()
   .add('Sallad', inventory['Sallad'], 0.5)
   .add('Kycklingfilé', inventory['Kycklingfilé'], 2)
@@ -195,19 +221,30 @@ let myGourmetSalad = new GourmetSalad()
 console.log('Min gourmetsallad med lite bacon kostar ' + myGourmetSalad.getPrice() + ' kr');
 myGourmetSalad.add('Bacon', inventory['Bacon'], 1)
 console.log('Med extra bacon kostar den ' + myGourmetSalad.getPrice() + ' kr');
-*/
+
 console.log('\n--- Assignment 6 ---------------------------------------')
-/*
+
 console.log('Min gourmetsallad har id: ' + myGourmetSalad.id);
 console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
-*/
+const copiedGourmetSalad = new GourmetSalad(myGourmetSalad.ingredients);
+const gourmetSingleText = JSON.stringify(myGourmetSalad);
+const gourmetSingleCopy = Salad.parse(gourmetSingleText);
+console.log('Min parsade gourmetsallad har uuid: ' + gourmetSingleCopy.uuid);
+console.log('Min kopierade gourmetsallad har uuid: ' + copiedGourmetSalad.uuid);
+
 
 /**
  * Reflection question 4
+ * de sparas i konstruktorn
+ * 
  */
 /**
  * Reflection question 5
  */
 /**
  * Reflection question 6
+ * 
+ * let inte bli ändrade utanför måsvingarna per princip.
+ * Men de är inte oförändringsbara på riktigt, om utvecklaren vet hur man ska komma åt dem.
+ * Man kan döpa sina variabler till typ private också för att folk ska fatta att de inte bör röras.
  */
