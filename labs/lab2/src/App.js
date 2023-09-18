@@ -2,6 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import inventory from './inventory.mjs';
 import ComposeSalad from './ComposeSalad' //behövde justera tog bort /src
+import { useState } from 'react';
 
 function App() {
   const extras = Object.keys(inventory).filter(name => inventory[name].extra);
@@ -16,6 +17,7 @@ function App() {
           <h2>Välj innehållet i din sallad:</h2>
           {extras.map(name => <div key={name} className="col-4">{name}</div>)}
         </div>
+        <ComposeSalad inventory={inventory} />
       </div>
 
       <footer className="pt-3 mt-4 text-muted border-top">
