@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="container py-4">
       <header className="pb-3 mb-4 border-bottom">
-        <span className="fs-4">Siris egna salladsbar</span>
+        <span className="fs-4">Siris salladsbar</span>
       </header>
 
       <div className="continer col-12">
