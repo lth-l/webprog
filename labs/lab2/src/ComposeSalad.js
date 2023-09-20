@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-function ComposeSalad(props) {
-  const foundationList = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
-  const proteinList = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
-  const dressingList = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
-  const extraList = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
+function ComposeSalad({ inventory, addToCart}) {
+  const foundationList = Object.keys(inventory).filter(name => inventory[name].foundation);
+  const proteinList = Object.keys(inventory).filter(name => inventory[name].protein);
+  const dressingList = Object.keys(inventory).filter(name => inventory[name].dressing);
+  const extraList = Object.keys(inventory).filter(name => inventory[name].extra);
   const [foundation, setFoundation] = useState('Pasta'); //börjar med pasta
   const [protein, setProtein] = useState('Kycklingfilé'); //börjar med kyckling
   const [dressing, setDressing]= useState('Caesardressing');
@@ -27,12 +27,27 @@ function ComposeSalad(props) {
       [extraName]: !prevExtra[extraName],
     }));
   };
+  const handleAddToCart = (event) => {
+    event.preventDefault();
+    const saladItem = {
+      foundation,
+      protein,
+      dressing,
+      extra,
+    };
+    addToCart(saladItem); // Call the addToCart function to add the item to the shopping cart
+    setFoundation('Pasta');
+    setProtein('Kycklingfilé');
+    setDressing('Caesardressing');
+    selectedExtras({ Bacon: true, Fetaost: true })
+
+  };
 
 
   
-  function MySaladSelect({ options, value, onChange }) {
+  function MySaladSelect({ options, value, onChange }) {  //borde vara i egen fil.
     return (
-      <select value={value} onChange={onChange}>
+      <select value={value} onChange={onChange} className='form-select'>
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -59,9 +74,7 @@ function ComposeSalad(props) {
     );}
     const [showMessage, setShowMessage] = useState(false);
 
-    const handleClick = () => {
-      setShowMessage(true);
-    };
+   
 
   
 
@@ -96,18 +109,12 @@ function ComposeSalad(props) {
     <div className="container col-12">
       
         
-        <button className="btn btn-primary" onClick={handleClick}>
-          Här ska du klicka (sen) för att låsa in ditt svar
-        </button>
-        {showMessage && (
-          <p>siri är fucking bäst</p>
-        )}
-        <button className="btn btn-primary" onClick={handleClick}>
-          Skitsnabb Caesar
-        </button>
-        <button onClick={() => {
-  alert('You clicked me!');
-}}></button>
+      
+       
+        <form onSubmit={handleAddToCart}>
+        <button type="submit" className="btn btn-primary">
+        Lägg i varukorg</button>
+        </form>
       </div>
     
 

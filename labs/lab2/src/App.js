@@ -3,9 +3,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import inventory from './inventory.mjs';
 import ComposeSalad from './ComposeSalad' //behövde justera tog bort /src
 import { useState } from 'react';
+import ViewOrder from './ViewOrder';
+
+//TODO: 1) riktiga salladsobjekt 2) flytta komponeneter till egna fil (saladselect)
+
+
 
 function App() {
   const extras = Object.keys(inventory).filter(name => inventory[name].extra);
+  const [shoppingCart, setShoppingCart] = useState([]);
+  const addToCart = (saladItem) => {
+    setShoppingCart([...shoppingCart, saladItem]);
+  };
   return (
     <div className="container py-4">
       <header className="pb-3 mb-4 border-bottom">
@@ -17,7 +26,9 @@ function App() {
           <h2>Välj innehållet i din sallad:</h2>
           {extras.map(name => <div key={name} className="col-4">{name}</div>)}
         </div>
-        <ComposeSalad inventory={inventory} />
+        <ComposeSalad inventory={inventory} addToCart={addToCart}  />
+        <h2> I kassan: </h2>
+        <ViewOrder shoppingCart={shoppingCart} />
       </div>
 
       <footer className="pt-3 mt-4 text-muted border-top">
