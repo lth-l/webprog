@@ -26,7 +26,7 @@ function App() {
           <h2>Välj innehållet i din sallad:</h2>
           {extras.map(name => <div key={name} className="col-4">{name}</div>)}
         </div>
-        <ComposeSalad inventory={inventory} addToCart={addToCart}  />
+        <ComposeSalad inventory={inventory} addToCart={addToCart} />
         <h2> I kassan: </h2>
         <ViewOrder shoppingCart={shoppingCart} />
       </div>
