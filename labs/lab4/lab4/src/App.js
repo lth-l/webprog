@@ -1,5 +1,6 @@
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import './App.css';
+
 import inventory from './inventory.mjs';
 import ComposeSalad from './ComposeSalad' //behövde justera tog bort /src
 import { useState } from 'react';
@@ -26,10 +27,18 @@ function App() {
   };
   return (
     <div className="container py-4">
+
+      app:lite text för att se att det inte är tomt.
       <Header />
       <Navbar />
-     <Outlet context={{setShoppingCart, addToCart, inventory}}/> 
+     
+      <Outlet
+context={{ shoppingCart, addToCart, inventory }} 
+/>
       <Footer />
+
+
+
     </div>
   );
 }

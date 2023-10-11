@@ -1,6 +1,11 @@
+import { useOutletContext } from "react-router-dom";
+
+
 import React from 'react';
 
-function ViewOrder({ shoppingCart }) {
+function ViewOrder() {
+  const { shoppingCart } = useOutletContext();
+  
   return (
     <div>
 <h2> I kassan: </h2>

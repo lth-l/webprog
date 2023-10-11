@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useOutletContext } from "react-router-dom";
+
+
 import MyExtraSelect from './MyExtraSelect';
 import MySaladSelect from './MySaladSelect';
 import Salad from './Salad';
 
 
-function ComposeSalad({ inventory, addToCart }) {
+function ComposeSalad() {
+  const { inventory, addToCart } = useOutletContext();
   const foundationList = Object.keys(inventory).filter(name => inventory[name].foundation);
   const proteinList = Object.keys(inventory).filter(name => inventory[name].protein);
   const dressingList = Object.keys(inventory).filter(name => inventory[name].dressing);
